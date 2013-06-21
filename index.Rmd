@@ -20,7 +20,7 @@ opts_chunk$set(results = 'asis', comment = NA, message = F, tidy = F)
 
 # Interactive Documents with R
 
-I gave a talk recently at the [NY Open Statistical Programming Meetup](http://www.meetup.com/nyhackr/events/122192822/), on how to use R to generate documents which are dynamic and interactive. I thought it would be useful to capture the main idea of the talk with a short demo. You can either watch the screencast, or read along for more information.
+I gave a talk recently at the [NY Open Statistical Programming Meetup](http://www.meetup.com/nyhackr/events/122192822/), on how to use R to generate documents which are dynamic and interactive. I thought it would be useful to capture the main idea of the talk with a short demo. You can either watch the screencast, view the [resulting document](http://glimmer.rstudio.com/ramnathv/idocsapp/) or read along for more information.
 
 <!-- embed screencast here -->
 <iframe width="595" height="340" src="http://www.youtube.com/embed/znaO6OHLTeY" frameborder="0" allowfullscreen></iframe><br/>
@@ -216,6 +216,6 @@ output$nvd3plot <- renderChart({
 })
 ```
 
-If you use `runDeck()`, you will be able to see a nice nvd3plot that can be controlled using the sidebar.
+If you use `runDeck()`, you will be able to see a nice nvd3plot that can be controlled using the sidebar. The final interactive document can be found in the folder named `idocs`. You can download the repo and run `runDeck("idocs")` to view it on your local machine.
 
 
