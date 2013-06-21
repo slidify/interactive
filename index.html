@@ -1,0 +1,255 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Interactive Documents</title>
+    <link rel="stylesheet" href="libraries/frameworks/minimal/stylesheets/styles.css">
+    <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/solarized_light.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+        <link rel=stylesheet href="./assets/css/custom.css"></link>
+<link rel=stylesheet href="http://fonts.googleapis.com/css?family=Open+Sans"></link>
+<link rel=stylesheet href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700"></link>
+
+    <script src="libraries/widgets/polycharts/js/polychart2.standalone.js"></script>
+
+  </head>
+  <body>
+    <div class="wrapper">
+<header>
+  <h1>Interactive Documents</h1>
+  <p>Slidify + Shiny</p>
+  <p class="view">
+    <a href="http://github.com/slidify/interactive">
+     View the Project on GitHub <small>slidify/interactive</small>
+    </a>
+  </p>
+  <ul class='buttons'>
+    <li><a href="https://github.com/slidify/interactive/zipball/gh-pages">
+      Download <strong>ZIP File</strong>
+    </a></li>
+    <li><a href="https://github.com/slidify/interactive/tarball/gh-pages">
+      Download <strong>TAR Ball</strong>
+    </a></li>
+    <li><a href="http://github.com/slidify/interactive">
+      Fork On <strong>GitHub</strong></a>
+    </li>
+  </ul>
+    <ol>
+    </ol>
+</header>
+
+      <section>
+        <h1>Interactive Documents with R</h1>
+<p>I gave a talk recently at the <a href="http://www.meetup.com/nyhackr/events/122192822/">NY Open Statistical Programming Meetup</a>, on how to use R to generate documents which are dynamic and interactive. I thought it would be useful to capture the main idea of the talk with a short demo. You can either watch the screencast, or read along for more information.</p>
+
+<!-- embed screencast here -->
+
+<p><iframe width="595" height="340" src="http://www.youtube.com/embed/znaO6OHLTeY" frameborder="0" allowfullscreen></iframe><br/></p>
+
+<h2>Getting Started</h2>
+
+<p>You will need to install development versions of many R packages in order to replicate the steps in this tutorial. This will require you to upgrade to R 3.0 if you have not already done so.</p>
+
+<pre><code class="r">require(devtools)
+install_github(c(&#39;slidify&#39;, &#39;slidifyLibraries&#39;), &#39;ramnathv&#39;, ref = &#39;dev&#39;)
+install_github(&#39;rCharts&#39;, &#39;ramnathv&#39;)
+install_github(&#39;shiny&#39;, &#39;rstudio&#39;)
+</code></pre>
+
+<h2>Create Document</h2>
+
+<p>Now that you have all the required packages installed, we will begin by creating a document. The easiest way to do this is to use the <code>author</code> function that comes with <code>slidify</code>.</p>
+
+<pre><code class="r">author(&#39;interactive&#39;)
+</code></pre>
+
+<p>This will create a folder called <code>interactive</code> in your working directory, populate it with a skeleton, and open <code>index.Rmd</code>. We will start by first editing the YAML front matter, adding <code>title</code>, <code>subtitle</code>, <code>author</code> and <code>job</code>.</p>
+
+<pre><code>---
+title       : Interactive Documents with R
+subtitle    : Slidify + Shiny
+author      : Ramnath Vaidyanathan
+job         : R Hacker
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+---
+</code></pre>
+
+<h2>Inject Interactivity</h2>
+
+<p>There are several ways of injecting interactivity into an R Markdown document, and I will illustrate a few methods. </p>
+
+<h3>Interactive Quiz</h3>
+
+<p>Let us start by creating a quiz question, the usual way we do. </p>
+
+<pre><code>---
+## Question 1
+
+What is 1 + 1?
+
+1. 1
+2. 2
+3. 3
+4. 4
+
+hint
+
+This is a hint
+
+explanation
+
+This is an explanation
+</code></pre>
+
+<p>There is nothing different so far, and if you slidify the document at this stage, you will just see a regular question with no interactivity. Now, to make this question interactive, we need to add some properties to the document.</p>
+
+<p>First, we need to add the <code>quiz</code> widget and the <code>bootstrap</code> widget to the YAML front matter. This will allow the document to take advantage of the interactivity provided by the quiz widget, and the styling provided by the bootstrap widget.</p>
+
+<pre><code>widgets    : [bootstrap, quiz]
+</code></pre>
+
+<p>Second, we need to add some markup to the slide that will allow slidify to transform it into an interactive question.</p>
+
+<pre><code>--- &amp;radio
+## Question 1
+
+What is 1 + 1?
+
+1. 1
+2. _2_
+3. 3
+4. 4
+
+ *** .hint
+This is a hint
+
+ *** .explanation
+This is an explanation
+</code></pre>
+
+<p>There are three components to the markup we add on this slide.</p>
+
+<ol>
+<li>The <code>&amp;radio</code> added to the slide separator instructs slidify to use the <code>radio</code> template, which ships with the <code>quiz</code> widget.</li>
+<li>The answer is marked up by enclosing it within underscores.</li>
+<li>The hint and the explanation are preceded by three stars and a dot, which instruct slidify to parse them as blocks, that will be made use of by the <code>radio</code> layout.</li>
+</ol>
+
+<p>If you slidify the document at this stage, you should see a quiz question that looks like this. </p>
+
+<!-- embed screenshot with link to quiz question -->
+
+<p>Try selecting an answer and submitting it, or asking for a hint. You will see that Slidify has utilized the markup properties and the content to create an interactive quiz question. In addition to the <code>radio</code> layout, the <code>quiz</code> widget supports seven other types of questions. I will post a full featured example on the <code>quiz</code> widget later.</p>
+
+<h3>Interactive Chart</h3>
+
+<p>We will now add an interactive chart to the document using the package <code>rCharts</code>, and the javascript charting library <code>nvd3</code>. As before, we first need to add <code>nvd3</code> as a widget in the YAML front matter. However, since <code>nvd3</code> does not ship with <code>slidifyLibraries</code>, we will add it as an external widget.</p>
+
+<pre><code>ext_widgets: {rCharts: [libraries/nvd3]}
+</code></pre>
+
+<p>We now add the slide with a knitr code chunk that creates the plot.</p>
+
+<pre><code>---
+## Interactive Chart
+```{r echo = F, results = &#39;asis&#39;}
+require(rCharts)
+haireye = as.data.frame(HairEyeColor)
+n1 &lt;- nPlot(Freq ~ Hair, group = &#39;Eye&#39;, type = &#39;multiBarChart&#39;,
+  data = subset(haireye, Sex == &#39;Male&#39;)
+)
+n1$print(&#39;chart1&#39;)
+`` `
+</code></pre>
+
+<p>Run slidify on the document, and you will see an interactive NVD3 plot with some nice controls.</p>
+
+<h3>Interactive Console</h3>
+
+<p>Next, we will add an interactive console to our document. It allows the user to execute R code right inside the document, and see the resulting output. This is a very useful feature for pedagogical purposes, where you want to provide executable examples right inside a tutorial. Adding an interactive console is even easier than the quiz.</p>
+
+<p>As before, we first add the <code>shiny</code> and <code>interactive</code> widgets to the list of widgets in the YAML front matter.</p>
+
+<pre><code>widgets    : [bootstrap, quiz, shiny, interactive]
+</code></pre>
+
+<p>We markup the slide and a knitr code chunk to instruct slidify to treat it as an interactive code chunk.</p>
+
+<pre><code>--- &amp;interactive
+## Interactive Console
+
+```{r opts.label = &#39;interactive&#39;, results = &#39;asis&#39;}
+require(googleVis)
+M1 &lt;- gvisMotionChart(Fruits, idvar = &#39;Fruit&#39;, timevar = &#39;Year&#39;)
+print(M1, tag = &#39;chart&#39;)
+`` `
+</code></pre>
+
+<p>That is it, we are done! Ah, one more thing remains. You can no longer use the <code>slidify</code> function, since we need this document to be run using a shiny server. Slidify ships with a <code>runDeck</code> function that takes care of all the boilerplate for you. Just make sure that you are in the same directory as the Rmd file and then do <code>runDeck()</code>. This will open the document as a Shiny application, and if you navigate to the new slide, you will see an interactive console as shown below. Clicking on the run button will execute the code and you will see a nice and shiny googleVis motionchart on the right! Neat right!!</p>
+
+<!-- embed screenshot with link to interactive console slide -->
+
+<h3>Interactive Chart with Controls</h3>
+
+<p>Finally, we will use Shiny to add interactive controls to the chart we created previously. Suppose that we want to control <code>Sex</code> and the <code>type</code> of plot. Let us first add the UI. <code>slidifyUI</code> behaves almost like <code>shinyUI</code> except that it outputs a character vector.</p>
+
+<pre><code>```{r opts.label = &#39;shiny&#39;}
+slidifyUI(
+  sidebarPanel(
+    selectInput(&#39;sex&#39;, &#39;Choose Sex&#39;, c(&#39;Male&#39;, &#39;Female&#39;)),
+    selectInput(&#39;type&#39;, &#39;Choose Type&#39;,
+      c(&#39;multiBarChart&#39;, &#39;multiBarHorizontalChart&#39;)
+    )
+  ),
+  mainPanel(
+    tags$div(id = &#39;nvd3plot&#39;, class=&#39;shiny-html-output nvd3 rChart&#39;)
+  )
+)
+`` `
+</code></pre>
+
+<p>We now need to add a plotting function to the server side. <code>runDeck</code> is set up so that any <code>R</code> file in the <code>apps</code> directory that starts with <code>app</code> will be automatically sourced into <code>shinyServer</code>. Hence, let us create an <code>apps</code> directory and add the following code the <code>app1.R</code>.</p>
+
+<p>Note that the code is almost identical to what we used previously, except that now the <code>Sex</code> and <code>type</code> of chart are not hardcoded, and instead being controlled by the UI.</p>
+
+<pre><code class="r">require(rCharts)
+output$nvd3plot &lt;- renderChart({
+  haireye = as.data.frame(HairEyeColor)
+  n1 &lt;- nPlot(Freq ~ Hair, group = &#39;Eye&#39;, type = input$type,
+    data = subset(haireye, Sex == input$sex)
+  )
+  n1$set(dom = &#39;nvd3plot&#39;, width = 600)
+  n1
+})
+</code></pre>
+
+<p>If you use <code>runDeck()</code>, you will be able to see a nice nvd3plot that can be controlled using the sidebar.</p>
+
+      </section>
+      <footer>
+        <p>Maintained by <a href="http://github.com/slidify">
+          Ramnath Vaidyanathan
+        </a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by 
+          <a href="https://github.com/orderedlist">orderedlist</a></small>
+        </p>
+      </footer>    </div>
+    <script src="libraries/frameworks/minimal/javascripts/scale.fix.js"></script>
+  </body>
+  <!-- Load Javascripts for Widgets -->
+  
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>

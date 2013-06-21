@@ -1,0 +1,22 @@
+<div id='aceeditor{{slide.num}}' style="height:{{slide.height}}px;"></div>
+<div class='interactive btn-toolbar pull-left'>
+  <div class='btn-group'>
+    <a class='btn btn-small action-button' id='runCode{{slide.num}}' data-action='runCode'
+      data-cell='{{slide.num}}' rel='tooltip' data-title='Run Code'>
+      <i class='icon-play'></i>
+    </a>
+    <a class='btn btn-small iBtn' id='testCode{{slide.num}}' data-action='testCode'
+       data-cell='{{slide.num}}' rel='tooltip' data-title='Test Code'>
+      <i class='icon-check'></i>
+    </a>
+    <a class='btn btn-small iBtn' id='clearResult{{slide.num}}' data-action='clearResult'
+       data-cell='{{slide.num}}' rel='tooltip' data-title='Clear Output'>
+      <i class="icon-remove"></i>
+    </a>
+    <a class='btn  btn-small iBtn' id='getHint{{slide.num}}' rel='tooltip' 
+      data-title="Get Hint" data-action='getHint'
+      data-cell='{{slide.num}}' data-hint="{{slide.hint.html}}">
+      <i class="icon-bookmark"></i>
+    </a>
+  </div>
+</div>
