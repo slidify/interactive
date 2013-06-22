@@ -8,7 +8,7 @@ highlighter : highlight.js  # {highlight.js, prettify, highlight}
 hitheme     : solarized_light      # 
 widgets     : [bootstrap, quiz, shiny, interactive]          
 mode        : selfcontained # {standalone, draft}
-ext_widgets : {rCharts: [libraries/nvd3]}
+ext_widgets : {rCharts: [libraries/nvd3, libraries/highcharts]}
 github      : {user: slidify, repo: idocs}
 --- &radio
 
@@ -216,6 +216,20 @@ print(M1, tag = 'chart')
     <div id="nvd3plot" class="shiny-html-output nvd3 rChart"></div>
   </div>
 </div>
+
+
+--- &interactive
+
+## Interactive Console
+
+<textarea class='interactive' id='interactive{{slide.num}}' data-cell='{{slide.num}}' data-results='asis' style='display:none'>require(rCharts)
+a <- Highcharts$new()
+a$chart(type = "spline")
+a$series(data = c(1, 3, 2, 4, 5, 4, 6, 2, 3, 5, NA), dashStyle = "longdash")
+a$series(data = c(NA, 4, 1, 3, 4, 2, 9, 1, 2, 3, 4), dashStyle = "shortdot")
+a$legend(symbolWidth = 80)
+a$print('chart3')
+</textarea>
 
 
 

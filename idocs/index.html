@@ -32,6 +32,9 @@
 <script src="libraries/widgets/nvd3/js/d3.v2.min.js"></script>
 <script src="libraries/widgets/nvd3/js/nv.d3.js"></script>
 <script src="libraries/widgets/nvd3/js/fisheye.js"></script>
+<script src="libraries/widgets/highcharts/js/jquery-1.9.1.min.js"></script>
+<script src="libraries/widgets/highcharts/js/highcharts.js"></script>
+<script src="libraries/widgets/highcharts/js/highcharts-more.js"></script>
 
 
 </head>
@@ -319,6 +322,55 @@ print(M1, tag = &#39;chart&#39;)
   <!-- Presenter Notes -->
 </slide>
 
+<slide class="" id="slide-5" style="background:;">
+  <hgroup>
+    <h2>Interactive Console</h2>
+  </hgroup>
+  <article data-timings="">
+     
+<div class='row-fluid'>
+  <div class='span5'>
+    <form id="knitForm5" data-cell="5">
+      <p><textarea class='interactive' id='interactive5' data-cell='5' data-results='asis' style='display:none'>require(rCharts)
+a &lt;- Highcharts$new()
+a$chart(type = &quot;spline&quot;)
+a$series(data = c(1, 3, 2, 4, 5, 4, 6, 2, 3, 5, NA), dashStyle = &quot;longdash&quot;)
+a$series(data = c(NA, 4, 1, 3, 4, 2, 9, 1, 2, 3, 4), dashStyle = &quot;shortdot&quot;)
+a$legend(symbolWidth = 80)
+a$print(&#39;chart3&#39;)
+</textarea></p>
+
+      <div id='aceeditor5' style="height:px;"></div>
+      <div class='interactive btn-toolbar pull-left'>
+        <div class='btn-group'>
+          <a class='btn btn-small action-button' id='runCode5' data-action='runCode'
+            data-cell='5' rel='tooltip' data-title='Run Code'>
+            <i class='icon-play'></i>
+          </a>
+          <a class='btn btn-small iBtn' id='testCode5' data-action='testCode'
+             data-cell='5' rel='tooltip' data-title='Test Code'>
+            <i class='icon-check'></i>
+          </a>
+          <a class='btn btn-small iBtn' id='clearResult5' data-action='clearResult'
+             data-cell='5' rel='tooltip' data-title='Clear Output'>
+            <i class="icon-remove"></i>
+          </a>
+          <a class='btn  btn-small iBtn' id='getHint5' rel='tooltip' 
+            data-title="Get Hint" data-action='getHint'
+            data-cell='5' data-hint="">
+            <i class="icon-bookmark"></i>
+          </a>
+        </div>
+      </div>    </form>
+  </div>
+  <div class='span7'>
+    <div id="knitResult5" class='shiny-html-output'></div>
+  </div>
+</div>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
     <slide class="backdrop"></slide>
   </slides>
   <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
@@ -345,6 +397,12 @@ print(M1, tag = &#39;chart&#39;)
       <a href="#" target="_self" rel='tooltip' 
         data-slide=4 title='Interactive Chart with Shiny Controls'>
          4
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title='Interactive Console'>
+         5
       </a>
     </li>
   </ul>
