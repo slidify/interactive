@@ -232,6 +232,17 @@ a$print('chart3')
 </textarea>
 
 
+--- &interactive
+
+## Results = Markup
+
+<textarea class='interactive' id='interactive{{slide.num}}' data-cell='{{slide.num}}' data-results='markup' style='display:none'>require(xtable)
+options(xtable.type = 'html')
+xtable(head(mtcars))
+</textarea>
+
+
+
 
 
 

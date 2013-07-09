@@ -84,6 +84,17 @@ a$legend(symbolWidth = 80)
 a$print('chart3')
 ```
 
+--- &interactive
+
+## Results = Markup
+
+```{r opts.label = 'interactive', results = 'markup'}
+require(xtable)
+options(xtable.type = 'html')
+xtable(head(mtcars))
+```
+
+
 
 
 
